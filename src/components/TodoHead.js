@@ -2,6 +2,7 @@
 
 import React from "react";
 import styled from "styled-components";
+import { useTodoState } from "../TodoContext";
 
 const TodoHeadBlock = styled.div`
     padding-top : 48px;
@@ -38,6 +39,9 @@ TodoHeadBlock 안에 들어있는, 내용들에 대해, 일일히 컴포넌트�
 - 조건부 스타일링을 할 필요가 없고, 기능적으로도 크게 중요하지 않은 내용이라면 => CSS Selector를 사용하는 것도 좋은 방법
 */ 
 function TodoHead() {
+    const todos = useTodoState();
+    console.log(todos);
+
     return (
         <TodoHeadBlock>
             <h1>2021년 3월 21일</h1>
