@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { createGlobalStyle } from 'styled-components';  // createGlobalStyle = 특정 컴포넌트가 아닌, 글로벌 스타일 추가가능
+import TodoTemplate from "./components/TodoTemplate";
+import TodoHead from "./components/TodoHead";
+import TodoList from "./components/TodoList";
+import TodoCreate from "./components/TodoCreate";
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background : #e9ecef;
+  }
+`;
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle />
+      <TodoTemplate>
+        <TodoHead />
+        <TodoList />
+        <TodoCreate />
+      </TodoTemplate>
+    </>
   );
 }
 
