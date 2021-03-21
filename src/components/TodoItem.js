@@ -1,7 +1,10 @@
+// 할 일 하나하나, TodoItem 컴포넌트
+// dispatch 를 사용해서, 토글 기능과 삭제 기능을 구현
+
 import React from "react";
 import styled, {css} from "styled-components";
 import { MdDone, MdDelete } from "react-icons/md";
-
+import { useTodoDispatch } from "../TodoContext";
 
 // 쓰레기통 버튼 
 const Remove = styled.div`
@@ -62,15 +65,21 @@ const Text = styled.div`
 `;
 
 function TodoItem({ id, done, text }){
+    const dispatch = useTodoDispatch();
+    const onToggle = () => { dispatch({type: "TOGGLE", id })}
+    const onRemove = () => { dispatch({type: "REMOVE", id })}
+    
     return(
         <TodoItemBlock>
-            <CheckCircle done={done}>{done && <MdDone />}</CheckCircle>
+            <CheckCircle done={done} onClick={onToggle}>
+                {done && <MdDone />}
+            </CheckCircle>
             <Text done={done}>{text}</Text>
-            <Remove>
+            <Remove onClick={onRemove}>
                 <MdDelete />
             </Remove>
         </TodoItemBlock>
     );
 }
 
-export default TodoItem;
+export default React.memo(TodoItem);    // React.memo : 불필요한 리렌더링을 방지, 성능 최적화

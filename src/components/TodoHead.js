@@ -1,4 +1,5 @@
-// 오늘의 날짜, 요일, 할 일 개수 보여주는 컴포넌ㅌ
+// 오늘의 날짜, 요일, 할 일 개수 보여주는 컴포넌트
+// done 값이 false 인 항목들의 개수를 화면에 보여준다.
 
 import React from "react";
 import styled from "styled-components";
@@ -40,13 +41,24 @@ TodoHeadBlock 안에 들어있는, 내용들에 대해, 일일히 컴포넌트�
 */ 
 function TodoHead() {
     const todos = useTodoState();
-    console.log(todos);
+    const undoneTasks = todos.filter(todo => !todo.done);
+
+    const today = new Date();   // Mon Mar 22 2021 00:07:57 GMT+0900 (대한민국 표준시) << 원래 형태
+    const dateString = today.toLocaleDateString('ko-KR',{ 
+        year :"numeric",
+        month : "long",
+        day : "numeric"
+    });
+    const dayName = today.toLocaleDateString("ko-KR", {
+        weekday : "long"
+    });
+    //console.log(today.toLocaleDateString());    // ex) 2021. 1. 1 << 형식
 
     return (
         <TodoHeadBlock>
-            <h1>2021년 3월 21일</h1>
-            <div className="day">일요일</div>
-            <div className="tasks-left">할 일 4개 남음</div>
+            <h1>{dateString}</h1>
+            <div className="day">{dayName}</div>
+            <div className="tasks-left">할 일 {undoneTasks.length}개 남음</div>
         </TodoHeadBlock>
     );
 }

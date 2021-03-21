@@ -71,7 +71,13 @@ Context 에서 사용 할 값을 지정할 때는, 위와 같이, Provider 컴�
 이러면, 다른 컴포넌트에서 state 나 dispatch를 사용하고 싶을 때, 
 */
 
-// useContext 커스텀 Hook 만들기
+// useContext 커스텀 Hook 만들기 & 예외 에러 처리
+/* 
+커스텀 훅 사용 시, 해당 컴포넌트가 TodoProvider 컴포넌트 내부에 렌더링 되어 있어야 함
+만약, TodoProvider 로 감싸져있지 않다면, 에러 발생시키기
+
+추후, 나중에 프로젝트가 커지고, 실수를 하게 됐을 때, 문제점을 빨리 캐치가능하게 해준다.
+*/
 export function useTodoState() {
     const context = useContext(TodoStateContext);
 
@@ -82,7 +88,7 @@ export function useTodoState() {
 }
 export function useTodoDispatch() {
     const context = useContext(TodoDispatchContext);
-    
+
     if (!context) {
         throw new Error("Cannot find TodoProvider");
     }

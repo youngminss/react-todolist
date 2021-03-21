@@ -1,8 +1,10 @@
 // 새로운 항목을 등록 할 수 있는, TodoCreate 컴포넌트
+// 자체적으로 관리해야 할, input 상태도 있다.
 
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { MdAdd } from "react-icons/md";
+import { useTodoDispatch, useTodoNextId } from "../TodoContext";
 
 const CircleButton = styled.button`
     background : #38d9a9;
@@ -79,14 +81,40 @@ const Input = styled.input`
 
 function TodoCreate() {
     const [open, setOpen] = useState(false);
-    const onToggle = () => { setOpen(!open)}; // ! 연산자로, 조건문 안달아도 된다 !! (메모..)
+    const [value, setValue] = useState("");
+
+    const dispatch = useTodoDispatch();
+    const nextId = useTodoNextId();
+
+    const onToggle = () => { setOpen(!open); }  // ! 연산자로, 조건문 안달아도 된다 !
+    const onChagne = (e) => { setValue(e.target.value); }
+    const onSubmit = (e) => {
+        e.preventDefault();     // 새로고침 방지
+        dispatch({
+            type: "CREATE",
+            todo : {
+                id : nextId.current,
+                text : value,
+                done : false
+            }
+        });
+        // dispatch 해주고 난 후, value,open 상태 초기화
+        setValue("");   
+        setOpen(false);
+        nextId.current += 1;
+    }
 
     return (
         <>
             {open && (
                 <InsertFormPositioner>
-                    <InsertForm>
-                        <Input autoFocus placeholder="할 일을 입력 후, Enter 를 누르세요." />
+                    <InsertForm onSubmit={onSubmit}>
+                        <Input 
+                            autoFocus 
+                            placeholder="할 일을 입력 후, Enter 를 누르세요." 
+                            onChange={onChagne}
+                            value={value}  
+                        />
                     </InsertForm>
                 </InsertFormPositioner>
             )}
@@ -97,4 +125,11 @@ function TodoCreate() {
     );
 }
 
-export default TodoCreate;
+export default React.memo(TodoCreate);
+
+/* 
+마지막, React.memo : TodoContext 에서 관리하고 있는, state 가 바뀔 때
+TodoCreate 의 불필요한 리렌더링을 방지 할 수 있다.
+만약 Context 를 하나만 만들었다면 ? (= TodoStateContext,TodoDispatchContext 로 나누지 않았다면 ?)
+이러한, 최적화는 하지 못했을 것
+*/
