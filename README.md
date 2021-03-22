@@ -86,13 +86,14 @@ Context를 만들었으니, Context 와 연동하여, 기능 구현
 
 ### 🔥 더 공부해볼 것
 
-- map함수, filter함수
-- React.memo
-- useContext
+- [X] map함수, filter함수
+- [ ] useReducer 
+- [ ] React.memo
+- [ ] useContext
 
 ### 🚀 추가적으로 해보고 싶은 것
-- 스톱워치 기능
-- 우선순위변경 기능
-- 내 스타일로 변형
-- 서버배포
+- [ ] 스톱워치 기능
+- [ ] 우선순위변경 기능
+- [ ] 내 스타일로 변형
+- [ ] 서버배포
 
